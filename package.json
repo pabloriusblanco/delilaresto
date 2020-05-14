@@ -1,0 +1,24 @@
+{
+  "name": "delilaresto",
+  "version": "1.0.0",
+  "description": "Este tercer proyecto plantea la creación de un sistema de pedidos online para un restaurante poniendo en funcionamiento las partes necesarias para montar una REST API que permita realizar operaciones CRUD sobre una estructura de datos que podría consumir un cliente. Parte del desafío está enfocado en lograr que el desarrollo del proyecto sea puesto en producción utilizando web services.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pabloriusblanco/delilaresto.git"
+  },
+  "author": "pablo rius blanco",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pabloriusblanco/delilaresto/issues"
+  },
+  "homepage": "https://github.com/pabloriusblanco/delilaresto#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
