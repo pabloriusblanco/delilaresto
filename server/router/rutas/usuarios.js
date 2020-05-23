@@ -11,9 +11,9 @@ router.route('/') ///Traer usuarios o crear usuarios
     let usuarioLogeado = res.locals.usuarioLogeado[0];
     if (usuarioLogeado.admin == 1) {
       let allUsers = await depenGenerales.sequelize.query("SELECT * FROM `usuarios` ORDER BY nombreyapellido asc",
-      { type: depenGenerales.sequelize.QueryTypes.SELECT }
-    );
-    res.status(200).send(allUsers);
+        { type: depenGenerales.sequelize.QueryTypes.SELECT }
+      );
+      res.status(200).send(allUsers);
     }
     else {
       res.status(403).send("Solo acceso admin");
@@ -23,7 +23,7 @@ router.route('/') ///Traer usuarios o crear usuarios
 
 
 
-  .post(middlewares.emailUsuarioExistente, async function (req, res) {
+  .post(middlewares.emailUsuarioExistentePost, async function (req, res) {
     const { usuario, password, nombreyapellido, email, telefono, direccion } = req.body;
     if (usuario != undefined && password != undefined && nombreyapellido != undefined && email != undefined && telefono != undefined && direccion != undefined) {
       let nuevoUsuario = await depenGenerales.sequelize.query('INSERT INTO usuarios (usuario, password, nombreyapellido, email, telefono, direccion) VALUES (?,?,?,?,?,?);', {
@@ -38,40 +38,56 @@ router.route('/') ///Traer usuarios o crear usuarios
 
 
 
-router.route('/:id') ///////// GET, PUT, DELETE 
-  .get(middlewares.jwtAut, async (req, res) => { ////Admin trae cualquier usuario, el resto nada mas obtiene sus propios datos
-    let idPedido = req.params.id;
-    console.log(idPedido);
-    let usuarioLogeado = res.locals.usuarioLogeado[0];
-    if (usuarioLogeado.admin == 1 || usuarioLogeado.id == idPedido) {
-      let usuarioEncontrado = await depenGenerales.sequelize.query("SELECT * FROM usuarios where id=:id",
-      { replacements: { id: idPedido }, type: depenGenerales.sequelize.QueryTypes.SELECT });
-      if (usuarioEncontrado.length != 0) {
-        res.status(200).send(usuarioEncontrado);
-      } else {
-        res.status(404).send("No se encontro ese usuario");
+router.route('/:id') ///////// GET, PUT, DELETE ////Admin trae cualquier usuario, el resto nada mas obtiene autorizacion a sus propios datos
+  .get(middlewares.jwtAut, middlewares.autorizUsuario, async (req, res) => {
+    let usuarioEncontrado = res.locals.usuarioEncontrado;
+    if (usuarioEncontrado.length != 0) {
+      res.status(200).send(usuarioEncontrado[0]);
+    } else {
+      res.status(404).send("No se encontro ese usuario");
+    }
+
+  })
+
+  .put(middlewares.jwtAut, middlewares.autorizUsuario, async (req, res) => {
+    if (res.locals.usuarioEncontrado != 0) {
+      let usuarioEncontrado = res.locals.usuarioEncontrado[0];
+      const { password, nombreyapellido, telefono, direccion } = req.body; /// cambio de algunos datos
+      if ((!password || password == usuarioEncontrado.password) && (!nombreyapellido || nombreyapellido == usuarioEncontrado.nombreyapellido) && (!telefono || telefono == usuarioEncontrado.telefono) && (!direccion || direccion == usuarioEncontrado.direccion)) {
+        res.status(200).send("No se hizo ningun cambio"); /// NO SE HIZO NINGUN CAMBIO
+      }
+      else {
+        if (password) {
+          usuarioEncontrado.password = password;
+        }
+        if (nombreyapellido) {
+          usuarioEncontrado.nombreyapellido = nombreyapellido;
+        }
+        if (telefono) {
+          usuarioEncontrado.telefono = telefono;
+        }
+        if (direccion) {
+          usuarioEncontrado.direccion = direccion;
+        }
+        let putUsuario = await depenGenerales.sequelize.query('UPDATE usuarios SET password=:password,nombreyapellido=:nombreyapellido,telefono=:telefono,direccion=:direccion WHERE id=:id',
+          { replacements: { password: usuarioEncontrado.password, nombreyapellido: usuarioEncontrado.nombreyapellido, telefono: usuarioEncontrado.telefono, direccion: usuarioEncontrado.direccion, id: usuarioEncontrado.id } })
+        res.status(200).send(putUsuario);
       }
     } else {
-        res.status(404).send("No tiene acceso a ese usuario");
+      res.status(404).send("No se encontro ese usuario");
     }
   })
 
-  .put(async (req, res) => {
-    const { parametro, password } = req.body; /// Como se puede logear por usuario o email recibe un parametro cualquiera
-    if (parametro && password) {
-      let usuarioEncontrado = await depenGenerales.sequelize.query("SELECT * FROM usuarios where email=:parametro or usuario=:parametro", /// Checkea ambos
-        { replacements: { parametro: parametro }, type: depenGenerales.sequelize.QueryTypes.SELECT });
-      if (usuarioEncontrado.length && usuarioEncontrado[0].password == password) {
-        let tokenEmailConfirm = depenGenerales.jwt.sign(usuarioEncontrado[0].id, depenGenerales.firmaSegura); ///devuelve el ID signed por JWT
-        res.status(200).send(tokenEmailConfirm);
-      } else {
-        res.status(400).send("Usuario o Password Incorrecto");
-      }
+  .delete(middlewares.jwtAut, middlewares.autorizUsuario, async (req, res) => {
+    let usuarioEncontrado = res.locals.usuarioEncontrado[0];
+    if (usuarioEncontrado.length != 0) {
+      let deleteUsuario = await depenGenerales.sequelize.query("DELETE FROM `usuarios` WHERE id=:id",
+      { replacements: { id: usuarioEncontrado.id } })
+      res.status(200).send("Usuario Eliminado \n" + deleteUsuario[0].id);
     } else {
-      res.status(422).send("Faltan parametros para el ingreso");
+      res.status(404).send("No se encontro ese usuario");
     }
-  });
-
+  })
 
 
 
