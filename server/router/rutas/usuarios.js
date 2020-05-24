@@ -4,7 +4,6 @@ const router = express.Router();
 const middlewares = require("../../middlewares/mainMiddleware");
 
 
-////// USUARIOS 
 router.route('/') ///Traer usuarios o crear usuarios
 
   .get(middlewares.jwtAut, async (req, res) => { ////Solo admin. Ver todos los usuarios ordenados por nombre
@@ -29,7 +28,6 @@ router.route('/') ///Traer usuarios o crear usuarios
       let nuevoUsuario = await depenGenerales.sequelize.query('INSERT INTO usuarios (usuario, password, nombreyapellido, email, telefono, direccion) VALUES (?,?,?,?,?,?);', {
         replacements: [usuario, password, nombreyapellido, email, telefono, direccion], type: depenGenerales.sequelize.QueryTypes.INSERT
       });
-      console.log(nuevoUsuario);
       res.status(202).send();
     } else {
       res.status(422).send("Faltan parametros para el registro");
@@ -48,6 +46,11 @@ router.route('/:id') ///////// GET, PUT, DELETE ////Admin trae cualquier usuario
     }
 
   })
+
+//Con el put la idea es traer la entrada de la base de datos que voy a cambiar como un objeto
+//En ese objeto actualizar a partir de que datos vengan en el req.body. Y siempre hacer el update a partir del objeto.
+//Siempre se van a actualizar todos los datos y todos van a coincidir con la información que hay en base de datos, excepto
+//esos datos que se hayan pasado en el req.body que si van a haberse actualizado.
 
   .put(middlewares.jwtAut, middlewares.autorizUsuario, async (req, res) => {
     if (res.locals.usuarioEncontrado != 0) {
@@ -80,7 +83,8 @@ router.route('/:id') ///////// GET, PUT, DELETE ////Admin trae cualquier usuario
 
   .delete(middlewares.jwtAut, middlewares.autorizUsuario, async (req, res) => {
     let usuarioEncontrado = res.locals.usuarioEncontrado[0];
-    if (usuarioEncontrado.length != 0) {
+    console.log(usuarioEncontrado);
+    if (usuarioEncontrado != undefined && usuarioEncontrado[0].admin != 1) {
       let deleteUsuario = await depenGenerales.sequelize.query("DELETE FROM `usuarios` WHERE id=:id",
       { replacements: { id: usuarioEncontrado.id } })
       res.status(200).send("Usuario Eliminado \n" + deleteUsuario[0].id);
