@@ -8,6 +8,6 @@ module.exports = function (app) {
     app.use('/platos', require('./rutas/platos'));
     app.use('/platos/:id', require('./rutas/platos'));
     ////ORDENES/////
-    // app.use('/orden', require('./rutas/orden'));
+    app.use('/orden', require('./rutas/orden'));
 
 };

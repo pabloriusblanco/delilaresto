@@ -34,23 +34,31 @@ const mainMiddleware = {
         }
     },
 
-    
 
 
-        ///Este middleware evalua que el usuario tenga acceso al pedido que está haciendo
-        autorizUsuario: async function (req, res, next) {
-            let idPedido = req.params.id;
-            let usuarioLogeado = res.locals.usuarioLogeado[0];
-            if (usuarioLogeado.admin == 1 || usuarioLogeado.id == idPedido) {
-                res.locals.usuarioEncontrado = await depenGenerales.sequelize.query("SELECT * FROM usuarios where id=:id",
-                    { replacements: { id: idPedido }, type: depenGenerales.sequelize.QueryTypes.SELECT });
-                next();
-            }
-            else {
-                res.status(404).send("No tiene acceso");
-            }
+
+    ///Este middleware evalua que el usuario tenga acceso al pedido que está haciendo
+    autorizUsuario: async function (req, res, next) {
+        let idPedido = req.params.id;
+        let usuarioLogeado = res.locals.usuarioLogeado[0];
+        if (usuarioLogeado.admin == 1 || usuarioLogeado.id == idPedido) {
+            res.locals.usuarioEncontrado = await depenGenerales.sequelize.query("SELECT * FROM usuarios where id=:id",
+                { replacements: { id: idPedido }, type: depenGenerales.sequelize.QueryTypes.SELECT });
+            next();
         }
+        else {
+            res.status(404).send("No tiene acceso");
+        }
+    },
+
+    ordenActiva: async function (req, res, next) { 
+        ///Evalua si hay una orden activa sin confirmar y trae los datos que se van a usar en el resto de las funciones.
+        let usuarioLogeado = res.locals.usuarioLogeado[0];
+        res.locals.ordenActiva = await depenGenerales.sequelize.query("SELECT * FROM `orden` WHERE usuarios_id=:id and habilitado=0",
+            { replacements: { id: usuarioLogeado.id }, type: depenGenerales.sequelize.QueryTypes.SELECT });
+        next();
     }
+}
 
 module.exports = mainMiddleware;
 
