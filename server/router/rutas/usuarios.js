@@ -94,7 +94,7 @@ router.route('/:id') ///////// GET, PUT, DELETE ////Admin trae cualquier usuario
   .delete(middlewares.jwtAut, middlewares.autorizUsuario, async (req, res) => {
     let usuarioEncontrado = res.locals.usuarioEncontrado[0];
     console.log(usuarioEncontrado);
-    if (usuarioEncontrado != undefined && usuarioEncontrado[0].admin != 1) {
+    if (usuarioEncontrado != undefined && usuarioEncontrado.admin != 1) {
       let deleteUsuario = await depenGenerales.sequelize.query("DELETE FROM `usuarios` WHERE id=:id",
       { replacements: { id: usuarioEncontrado.id } })
       res.status(200).send("Usuario Eliminado \n" + deleteUsuario[0].id);

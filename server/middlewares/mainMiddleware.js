@@ -75,6 +75,31 @@ const mainMiddleware = {
         }
     },
 
+    platosFavoritos: async function (req, res, next) {
+        ///////////////////////////////////////////////////////////////////////////////////////////////
+        //Evalua que platos pidió el usuario el ultimo tiempo si esta logeado y devuelve aquellos con más pedios
+        ////////////////////////////////////////////////////////////////////////////////////////////////
+        if (req.headers.authorization) {
+            let jwtVerified = depenGenerales.jwt.verify(req.headers.authorization.split(" ")[1], depenGenerales.firmaSegura)
+            res.locals.platosFavoritos = await depenGenerales.sequelize.query(`
+            SELECT p.id, p.nombre, p.img, p.precio, count(1)
+            FROM orden o 
+            INNER JOIN ordenes_platos op ON op.orden_id = o.id 
+            INNER JOIN platos p ON op.platos_id = p.id
+            WHERE  o.usuarios_id =:id
+            AND    o.fecha > date_add( now(), interval -365 day  )
+            group by p.id, p.nombre, p.img, p.precio
+            order by count(1) desc`
+                ,
+                { replacements: { id: jwtVerified }, type: depenGenerales.sequelize.QueryTypes.SELECT });
+            next();
+        }
+        else {
+            next();
+        }
+    },
+
+
     ordenProceso: async function (req, res, next) {
         ////////////////////////////////////////////////////////////////////////////////
         ///Pasa como parametro la orden elegida en orden/id/:id
@@ -93,10 +118,14 @@ const mainMiddleware = {
             GROUP_CONCAT(p.nombre) as platos, 
             o.precio_total, 
             o.pago,
-            op.id op_id 
+            op.id op_id,
+            u.direccion,
+            u.nombreyapellido,
+            u.telefono
             FROM orden o 
             INNER JOIN ordenes_platos op ON op.orden_id = o.id 
             INNER JOIN platos p ON op.platos_id = p.id
+            INNER JOIN usuarios u ON o.usuarios_id = u.id
             WHERE o.id=:orden_id AND
             
             o.habilitado=1`,
