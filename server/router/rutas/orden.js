@@ -62,12 +62,86 @@ router.route('/')
     });
 
 router.route('/id/:orden_id')
-    ////////////////////////////////////////////////////////////////////////////////
-    ///Obtiene la orden por ID. Si es usuario nada más puede acceder a sus ordenes.
-    ////////////////////////////////////////////////////////////////////////////////
     .get(middlewares.jwtAut, middlewares.ordenProceso, async (req, res) => {
+        ////////////////////////////////////////////////////////////////////////////////
+        ///Obtiene la orden por ID. Si es usuario nada más puede acceder a sus ordenes.
+        ////////////////////////////////////////////////////////////////////////////////
         let ordenIdUsuario = res.locals.ordenIdUsuario;
         res.status(200).send(ordenIdUsuario);
+    })
+
+    .put(middlewares.jwtAut, middlewares.ordenProceso, async (req, res) => {
+        ////////////////////////////////////////////////////////////////////////////////
+        ///Permite al admin cambiar datos de la orden. Normalmente los estados y nada mas.
+        /// ESTADOS:
+        /// 1 nuevo - 2 confirmado - 3 preparando - 4 enviando - 5 entregado - 6 cancelado
+        ////////////////////////////////////////////////////////////////////////////////
+        let ordenIdUsuario = res.locals.ordenIdUsuario;
+        const { fecha, pago, precio_total, comentarios, estado } = req.body;
+        let usuarioLogeado = res.locals.usuarioLogeado[0];
+        if (usuarioLogeado.admin == 1) {
+            if (fecha) {
+                ordenIdUsuario.fecha = fecha;
+            }
+            if (pago) {
+                ordenIdUsuario.pago = pago;
+            }
+            if (precio_total) {
+                ordenIdUsuario.precio_total = precio_total;
+            }
+            if (comentarios) {
+                ordenIdUsuario.comentarios = comentarios;
+            }
+            if (estado) {
+                ordenIdUsuario.estado = estado;
+            }
+            let putOrden = await depenGenerales.sequelize.query(`
+            UPDATE orden SET
+            fecha=:fecha,
+            pago=:pago,
+            precio_total=:precio_total,
+            comentarios=:comentarios,
+            estado=:estado
+            WHERE id=:orden_id`,
+                {
+                    replacements:
+                    {
+                        fecha: ordenIdUsuario.fecha,
+                        pago: ordenIdUsuario.pago,
+                        precio_total: ordenIdUsuario.precio_total,
+                        comentarios: ordenIdUsuario.comentarios,
+                        estado: ordenIdUsuario.estado,
+                        orden_id: ordenIdUsuario.id_ord
+                    }
+                });
+            res.status(200).send({ confirmado: "Orden del usuario actualizada", datosActualizados: putOrden });
+        }
+        if (usuarioLogeado.admin == 0) {
+            ////////////////////////////////////////////////////////////////////////////////
+            ///Al usuario le permite CANCELAR su pedido si no lleguó a estado 3.
+            /// ESTADOS:
+            /// 1 nuevo - 2 confirmado - 3 preparando - 4 enviando - 5 entregado - 6 cancelado
+            ////////////////////////////////////////////////////////////////////////////////
+            if (estado==6 && ordenIdUsuario.estado <= 2) {
+                ordenIdUsuario.estado = estado;
+                let putOrden = await depenGenerales.sequelize.query(`
+                UPDATE orden SET
+                estado=6
+                WHERE id=:orden_id`,
+                    {
+                        replacements:
+                        {
+                            orden_id: ordenIdUsuario.id_ord
+                        }
+                    });
+                res.status(200).send("Orden cancelada");
+            }
+            else {
+                res.status(403).send({ confirmado: "No se puede cancelar el pedido", telefono: "5411XXXXXXXX" });
+            }
+
+        }
+
     });
 
 router.route('/confirmar')

@@ -87,6 +87,7 @@ const mainMiddleware = {
             o.estado,
             o.fecha, 
             o.id id_ord,
+            o.comentarios,
             GROUP_CONCAT(p.img) as imagenes,
             GROUP_CONCAT(op.cantidad) as cantidades,
             GROUP_CONCAT(p.nombre) as platos, 
@@ -99,7 +100,7 @@ const mainMiddleware = {
             WHERE o.id=:orden_id AND
             
             o.habilitado=1`,
-            { replacements: { orden_id: ordenID}, type: depenGenerales.sequelize.QueryTypes.SELECT })
+            { replacements: { orden_id: ordenID }, type: depenGenerales.sequelize.QueryTypes.SELECT })
         if (ordenIdUsuario[0].estado == null) {
             res.status(404).send("La orden no existe o no tiene acceso");
         } else {
@@ -110,7 +111,6 @@ const mainMiddleware = {
                 res.status(404).send("No tiene acceso");
             }
         }
-
     },
 
     ordenActiva: async function (req, res, next) {
