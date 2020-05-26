@@ -22,7 +22,7 @@ router.route('/') ///Traer platos o crear platos
                 let nuevoPlato = await depenGenerales.sequelize.query('INSERT INTO platos (nombre, precio, descripcion, img, nuevo_plato, habilitado) VALUES (?,?,?,?,?,?);', {
                     replacements: [nombre, precio, descripcion, img, nuevo_plato, habilitado], type: depenGenerales.sequelize.QueryTypes.INSERT
                 });
-                res.status(200).send(nuevoPlato);
+                res.status(201).send(nuevoPlato);
             } else {
                 res.status(422).send("Faltan parametros para la creación de un plato");
             }

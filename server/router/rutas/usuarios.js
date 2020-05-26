@@ -28,7 +28,7 @@ router.route('/') ///Traer usuarios o crear usuarios
       let nuevoUsuario = await depenGenerales.sequelize.query('INSERT INTO usuarios (usuario, password, nombreyapellido, email, telefono, direccion) VALUES (?,?,?,?,?,?);', {
         replacements: [usuario, password, nombreyapellido, email, telefono, direccion], type: depenGenerales.sequelize.QueryTypes.INSERT
       });
-      res.status(202).send();
+      res.status(201).send("Usuario creado");
     } else {
       res.status(422).send("Faltan parametros para el registro");
     }
@@ -56,7 +56,11 @@ router.route('/:id') ///////// GET, PUT, DELETE ////Admin trae cualquier usuario
     if (res.locals.usuarioEncontrado != 0) {
       let usuarioEncontrado = res.locals.usuarioEncontrado[0];
       const { password, nombreyapellido, telefono, direccion } = req.body; /// cambio de algunos datos
-      if ((!password || password == usuarioEncontrado.password) && (!nombreyapellido || nombreyapellido == usuarioEncontrado.nombreyapellido) && (!telefono || telefono == usuarioEncontrado.telefono) && (!direccion || direccion == usuarioEncontrado.direccion)) {
+      if 
+      ((!password || password == usuarioEncontrado.password) && 
+      (!nombreyapellido || nombreyapellido == usuarioEncontrado.nombreyapellido) && 
+      (!telefono || telefono == usuarioEncontrado.telefono) && 
+      (!direccion || direccion == usuarioEncontrado.direccion)) {
         res.status(200).send("No se hizo ningun cambio"); /// NO SE HIZO NINGUN CAMBIO
       }
       else {
@@ -73,8 +77,14 @@ router.route('/:id') ///////// GET, PUT, DELETE ////Admin trae cualquier usuario
           usuarioEncontrado.direccion = direccion;
         }
         let putUsuario = await depenGenerales.sequelize.query('UPDATE usuarios SET password=:password,nombreyapellido=:nombreyapellido,telefono=:telefono,direccion=:direccion WHERE id=:id',
-          { replacements: { password: usuarioEncontrado.password, nombreyapellido: usuarioEncontrado.nombreyapellido, telefono: usuarioEncontrado.telefono, direccion: usuarioEncontrado.direccion, id: usuarioEncontrado.id } })
-        res.status(200).send(putUsuario);
+          { replacements: { 
+            password: usuarioEncontrado.password, 
+            nombreyapellido: usuarioEncontrado.nombreyapellido, 
+            telefono: usuarioEncontrado.telefono, 
+            direccion: usuarioEncontrado.direccion, 
+            id: usuarioEncontrado.id 
+          }})
+        res.status(201).send(putUsuario);
       }
     } else {
       res.status(404).send("No se encontro ese usuario");
