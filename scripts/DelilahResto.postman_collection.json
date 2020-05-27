@@ -1,0 +1,869 @@
+{
+	"info": {
+		"_postman_id": "fc0211eb-f726-4cbe-8009-088d85a43d36",
+		"name": "DelilahResto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/Usuarios",
+			"item": [
+				{
+					"name": "GET * /usuarios",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/usuarios",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN POST /usuarios/login (recibe JWT)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.RmVsaXBhLkhvZWdlcjUwQGhvdG1haWwuY29t.tj0bXNc7ViDJkd5LMLzScxPOgNmaxUm4pKJMl0cGpgI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"parametro\": \"Aryanna50\",\r\n    \"password\": \"4j65U4q6MkeKY8F\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/usuarios/login",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN POST Admin /usuarios/login (recibe JWT) Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.RmVsaXBhLkhvZWdlcjUwQGhvdG1haWwuY29t.tj0bXNc7ViDJkd5LMLzScxPOgNmaxUm4pKJMl0cGpgI",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"parametro\": \"Admin1\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/usuarios/login",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REGISTRO POST /usuarios/",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.RmVsaXBhLkhvZWdlcjUwQGhvdG1haWwuY29t.tj0bXNc7ViDJkd5LMLzScxPOgNmaxUm4pKJMl0cGpgI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n        \"usuario\": \"UsuaritoMatador\",\r\n        \"password\": \"TestDelilah\",\r\n        \"nombreyapellido\": \"Jorge Jorgin\",\r\n        \"email\": \"TestDelilah@yahoo.com\",\r\n        \"telefono\": \"1-298-916-4127\",\r\n        \"direccion\": \"35047 Dietrich Inlet\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/usuarios",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ID /usuarios/29",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:3000/usuarios/29",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT ID /usuarios/29",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n    {\r\n        \"nombreyapellido\": \"Macomo Iltesti\"\r\n    }\r\n\t",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/usuarios/29",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"29"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ID /usuarios/",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/usuarios/50",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"usuarios",
+								"50"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Platos",
+			"item": [
+				{
+					"name": "GET /platos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/platos",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"platos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST /platos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nombre\": \"Test\",\r\n        \"precio\": 370,\r\n        \"descripcion\": \"Con salsa boloñesa, mixta, o crema con jamón y champiñones.\",\r\n        \"img\": \"https://italpastdeli.com.ar/wp-content/uploads/2017/09/MG_5680-1280x853-1024x682.jpg\",\r\n        \"nuevo_plato\": 0,\r\n        \"habilitado\": 1\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/platos",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"platos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ID /platos/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:3000/platos/5",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"platos",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT ID /platos/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"nombre\":\"Li pastarica\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/platos/15",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"platos",
+								"15"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE ID /platos/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/platos/5",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"platos",
+								"5"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Ordenes",
+			"item": [
+				{
+					"name": "GET /orden",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:3000/orden",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /orden/carrito",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:3000/orden/carrito",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden",
+								"carrito"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CONFIRMAR  /orden/confirmar",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"description": "id 29",
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"disabled": true
+							},
+							{
+								"description": "admin",
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"disabled": true
+							},
+							{
+								"description": "diferente a 29",
+								"key": "Authorization",
+								"type": "text",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"pago\":\"Tarjeta\",\n\t\"comentarios\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/orden/confirmar",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden",
+								"confirmar"
+							]
+						},
+						"description": "Confirma Orden"
+					},
+					"response": []
+				},
+				{
+					"name": "POST /orden/ agregar/carrito",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"cantidad\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/orden/carrito/6",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden",
+								"carrito",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /orden/id/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "127.0.0.1:3000/orden/id/",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden",
+								"id",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT /orden/id/:id",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"estado\":6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/orden/id/3",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden",
+								"id",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

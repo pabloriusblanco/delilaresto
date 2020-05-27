@@ -1,0 +1,770 @@
+openapi: 3.0.1
+info:
+  title: Delilah Resto por Pablo Rius Blanco.
+  description: API backend de un supuesto lugar de comidas.
+  contact:
+    email: pabloriusblanco@gmail.com
+  version: 1.0.0
+externalDocs:
+  description: Github Repository
+  url: https://github.com/pabloriusblanco/delilaresto
+servers:
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/pabloriusblanco/delilahResto-PabloRiusBlanco/1.0.0
+  - url: https://localhost:3000/
+tags:
+  - name: Usuarios
+    description: login, registro y cambios
+  - name: Orden
+    description: ordenes, pedidos, cantidades, pagos, etc
+  - name: Platos
+    description: descripcion, imagenes, precios, etc
+
+paths:
+  /usuarios:
+    get:
+      tags:
+        - Usuarios
+      summary: Lista de Usuarios (solo Admin)
+      description: Obtiene la lista de todos los usuarios
+      operationId: UsuariosTodos
+      security:
+        - bearerAuth: []        
+      responses:
+        200:
+          description: Pedido aceptado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/datosUsuario"
+        403:
+          description: No tiene permisos para acceder
+        default:
+          $ref: "#/components/responses/Default"
+
+    post:
+      tags:
+        - Usuarios
+      summary: crear usuario
+      description: crea una nueva entrada en al base de datos de usuarios
+      operationId: CrearUsuario
+      requestBody:
+        description: datos personales y de envio
+        content:
+          application/json:
+              schema:
+                $ref: "#/components/schemas/usuario"
+        required: true
+      responses:
+        200:
+          description: Usuario creado con éxito
+        400:
+          description: Faltan parametros para el registro
+        409:
+          description: Ese usuario y/o email ya están registrados
+        default:
+          $ref: "#/components/responses/Default"
+          
+  /usuarios/login:
+    post:
+      tags:
+        - Usuarios
+      summary: Permite el login
+      description: La idea es que como se puede logear con usuario o email reciba cualquiera de los dos
+      operationId: LoginManual
+      requestBody:
+        description: datos personales y de envio
+        content:
+          application/json:
+              schema:
+                  type: object
+                  properties:
+                    parametro:
+                      type: string
+                      example: Mack.Padberg83
+                    password:
+                      type: string
+                      example: I38wz9z3LFsfuZT
+        required: true
+      responses:
+        200:
+          description: Pedido aceptado envio de JWT
+          content:
+            application/json:
+              schema:
+                      type: string
+                      example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        400:
+          description: Usuario o Password Incorrecto
+        404:
+          description: Faltan parametros para el ingreso
+        default:
+          $ref: "#/components/responses/Default"
+
+  /usuarios/:id:
+    get:
+      tags:
+        - Usuarios
+      summary: Obtiene cualquier usuario
+      description: Admin trae cualquier usuario, el resto nada mas obtiene autorizacion a sus propios datos
+      parameters:
+        - name: id
+          in: path
+          description: ID del usuario
+          required: true
+          schema:
+            type: integer
+      operationId: ObtenerUsuario
+      security:
+        - bearerAuth: []   
+      responses:
+        200:
+          description: Pedido aceptado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/usuario"
+        401:
+          description: Necesita estar logeado para realizar esa accion
+        403:
+          description: No tiene permisos para acceder
+        404:
+          description: No se encontro ese usuario
+        default:
+          $ref: "#/components/responses/Default"
+    
+    put:
+      tags:
+        - Usuarios
+      summary: Actualiza datos de usuario
+      description: Actualiza los datos de su propio perfil o de cualquiera si es admin
+      parameters:
+        - name: id
+          in: path
+          description: ID del usuario
+          required: true
+          schema:
+            type: integer
+      operationId: ActualizarUsuario
+      requestBody:
+        description: Campos que se quieran actualizar
+        content:
+          application/json:
+              schema:
+                $ref: "#/components/schemas/usuario"
+        required: true
+      security:
+        - bearerAuth: []   
+      responses:
+        201:
+          description: Pedido aceptado. Usuario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/usuario"
+        401:
+          description: Necesita estar logeado para realizar esa accion
+        403:
+          description: No tiene permisos para acceder
+        404:
+          description: No se encontro ese usuario
+        default:
+          $ref: "#/components/responses/Default"
+
+    delete:
+      tags:
+        - Usuarios
+      summary: Elimina un usuario
+      description: Elimina un usuario cualquiera como admin.
+      parameters:
+        - name: id
+          in: path
+          description: ID del usuario
+          required: true
+          schema:
+            type: integer
+      operationId: EliminarUsuario
+      security:
+        - bearerAuth: []   
+      responses:
+        204:
+          description: Pedido aceptado. Usuario eliminado
+        401:
+          description: Necesita estar logeado para realizar esa accion
+        403:
+          description: No tiene permisos para acceder
+        404:
+          description: No se encontro ese usuario
+        default:
+          $ref: "#/components/responses/Default"
+
+  /platos:
+    get:
+      tags:
+        - Platos
+      summary: Lista de platos
+      description: Obtiene la lista de todos los platos. Si esta logeado tambien obtiene una lista de favoritos
+      operationId: PlatosTodos
+      responses:
+        200:
+          description: Pedido aceptado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListaPlatos"
+        500:
+          description: Error al traer los platos
+        default:
+          $ref: "#/components/responses/Default"
+          
+    post:
+      tags:
+        - Platos
+      summary: Crea un plato
+      description: crea una nueva entrada en al base de datos de platos (admin)
+      operationId: CrearPlato
+      requestBody:
+        description: Detalles del plato
+        content:
+          application/json:
+              schema:
+                $ref: "#/components/schemas/Platos"
+        required: true
+      security:
+        - bearerAuth: []   
+      responses:
+        204:
+          description: Plato creado con éxito
+        400:
+          description: Faltan parametros para la creacion del plato
+        401:
+          description: Necesita estar logeado para realizar esa accion
+        403:
+          description: No tiene permisos para acceder
+        default:
+          $ref: "#/components/responses/Default"
+
+
+  /platos/:id:
+    get:
+      tags:
+        - Platos
+      summary: Obtiene un plato
+      description: Por parametro el ID del plato
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: ObtenerPlato
+      responses:
+        200:
+          description: Pedido aceptado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Platos"
+        404:
+          description: No se encontro ese plato
+        default:
+          $ref: "#/components/responses/Default"
+          
+    put:
+      tags:
+        - Platos
+      summary: Actualiza plato
+      description: Recibe por body los campos del plato que se quieren cambiar (admin)
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: ActualizarPlato
+      requestBody:
+        description: Campos que se quieran actualizar
+        content:
+          application/json:
+              schema:
+                $ref: "#/components/schemas/Platos"
+        required: true
+      security:
+        - bearerAuth: []   
+      responses:
+        200:
+          description: Plato actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Platos"
+        401:
+          description: Necesita estar logeado para realizar esa accion                
+        403:
+          description: No tiene permisos para acceder
+        404:
+          description: No se encontró el plato          
+        default:
+          $ref: "#/components/responses/Default"
+          
+    delete:
+      tags:
+        - Platos
+      summary: Elimina un Plato
+      description: Elimina un plato cualquiera como admin (preferible cambiar el habilitado a "0")
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: EliminarPlato
+      security:
+        - bearerAuth: []   
+      responses:
+        204:
+          description: Pedido aceptado. Plato eliminado
+        401:
+          description: Necesita estar logeado para realizar esa accion                 
+        403:
+          description: No tiene permisos para acceder
+        404:
+          description: No se encontró el plato          
+        default:
+          $ref: "#/components/responses/Default"
+
+  /orden:
+    get:
+      tags:
+        - Orden
+      summary: Lista de ordennes (admin). Historial de ordenes (todos)
+      description:  "Si el usuario no es admin obtiene un historias de sus pedidos. Si el usuario ES admin es la ruta del homepage del admin basicamente "
+      operationId: OrdenesTodas
+      security:
+        - bearerAuth: []        
+      responses:
+        200:
+          description: Pedido aceptado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ListaOrdenes"
+        403:
+          description: No tiene permisos para acceder
+        404:
+          description: No hay ordenes en el sistema
+        default:
+          $ref: "#/components/responses/Default"
+          
+  /orden/id/:id:
+    get:
+      tags:
+        - Orden
+      summary: Obtiene una orden
+      description: Se para por parametro el ID del plato
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: ObtenerOrden
+      responses:
+        200:
+          description: Pedido aceptado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Orden"
+        401:
+          description: Necesita estar logeado para realizar esa accion      
+        403:
+          description: No tiene permisos para acceder                
+        404:
+          description: No se encontro esa orden
+        default:
+          $ref: "#/components/responses/Default"
+          
+    put:
+      tags:
+        - Orden
+      summary: Actualiza orden
+      description: "Recibe por body los campos de la orden que se quieren cambiar (admin). Principalmente para cambiar el estado. El usuario puede cancelar la onda con esta ruta si el estado de la orden < 3. /// ESTADOS             /// 1 nuevo - 2 confirmado - 3 preparando - 4 enviando - 5 entregado - 6 cancelado"
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: ActualizarOrden
+      requestBody:
+        description: Campos que se quieran actualizar
+        content:
+          application/json:
+              schema:
+                $ref: "#/components/schemas/Orden"
+        required: true
+      security:
+        - bearerAuth: []   
+      responses:
+        200:
+          description: Orden actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Orden"
+        401:
+          description: Necesita estar logeado para realizar esa accion      
+        403:
+          description: No tiene permisos para acceder                
+        404:
+          description: No se encontro esa orden       
+        default:
+          $ref: "#/components/responses/Default"
+          
+  /orden/confirmar:        
+    put:
+      tags:
+        - Orden
+      summary: Confirma Pedido
+      description: Confirma la orden activa, con los pedidos anexados. Agrega los campos finales de fecha, precio, agrega medio de pago, comentarios (si hay)
+      operationId: ConfirmaOrden
+      requestBody:
+        description: requiere metodo de pago (efectivo por defecto). Recibe tambien comentarios
+        content:
+          application/json:
+              schema:
+                type: object
+                properties:
+                  pago:
+                    type: string
+                    example: Tarjeta
+                  comentarios:
+                    type: string
+                    example: Tercer timbre
+        required: true
+      security:
+        - bearerAuth: []   
+      responses:
+        200:
+          description: Su pedido se ha realizado
+        401:
+          description: Necesita estar logeado para realizar esa accion      
+        403:
+          description: No tiene permisos para acceder
+        412:
+          description: Metodo de pago inválido  
+        500:
+          description: Error inesperado. Por favor llame por teléfono al XXXXXXXXXX para hacer su pedido.    
+        default:
+          $ref: "#/components/responses/Default"
+          
+          
+          
+  /orden/carrito:
+    get:
+      tags:
+        - Orden
+      summary: Obtiene orden la activa (el carrito)
+      description: este endpoint es donde se obtiene el la orden actual que se esta contruyendo, se confirma luego desde la ruta orden/confimar. Devuelve 204 si esta vacia.
+      operationId: ObtenerCarrito
+      security:
+        - bearerAuth: []   
+      responses:
+        200:
+          description: Pedido aceptado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carrito"
+        204:
+          description: No hay elementos en su carrito 
+        401:
+          description: Necesita estar logeado para realizar esa accion      
+        403:
+          description: No tiene permisos para acceder                
+        default:
+          $ref: "#/components/responses/Default"
+
+  /orden/carrito/:plato_id:
+    post:
+      tags:
+        - Orden
+      summary: Agrega plato al carrito
+      description: Toma por parametro el ID de un plato, evalua que este habilitado. Recibe por el body la cantidad y lo agrega al carrito activo (que se puede obtener con /orden/carrito). En el caso de no haya ordenes activas (orden.habilitado = 1) crea una nueva orden en la base de datos. Tanto el esta ruta como /orden/carrito tienen un middleware que evalua que haya platos en la orden, si no es el caso la elimina. Por eso no hay delete en esta ruta. 
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: CrearPlatoEnCarrito
+      requestBody:
+        description: la cantidad de platos que se quieren agregar a la orden en curso
+        content:
+          application/json:
+              schema:
+                type: object
+                properties:
+                  cantidad:
+                    type: integer
+                    example: 3
+      security:
+        - bearerAuth: []   
+      responses:
+        200:
+          description: Agregado plato a su carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carrito"
+        204:
+          description: No hay elementos en su carrito 
+        401:
+          description: Necesita estar logeado para realizar esa accion      
+        403:
+          description: No tiene permisos para acceder                
+        default:
+          $ref: "#/components/responses/Default"
+
+    put:
+      tags:
+        - Orden
+      summary: Modifica cantidad de platos
+      description: Modifica la cantidad de platos en una orden activa (que se puede ver en orden/carrito). En el caso de que la cantidad sea 0 (o menos) elimina el plato de la orden.
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: ModificarPlatoEnCarrito
+      requestBody:
+        description: la cantidad de platos actualizada
+        content:
+          application/json:
+              schema:
+                type: object
+                properties:
+                  cantidad:
+                    type: integer
+                    example: 3
+      security:
+        - bearerAuth: []   
+      responses:
+        200:
+          description: Cambiada la cantidad de platos en su carrito
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Carrito"
+        204:
+          description: Plato eliminado de su carrito
+        401:
+          description: Necesita estar logeado para realizar esa accion      
+        403:
+          description: No tiene permisos para acceder                
+        default:
+          $ref: "#/components/responses/Default"
+
+
+components:
+  securitySchemes:
+    bearerAuth:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT   
+
+  schemas:
+    usuario:
+      type: object
+      properties:
+        usuario:
+          type: string
+          example: Mack.Padberg83
+        password:
+          type: string
+          example: I38wz9z3LFsfuZT
+        nombreyapellido:
+          type: string
+          example: Bette Grimes
+        email:
+          type: string
+          example: Patience.Feestival@yahoo.com
+        telefono:
+          type: string
+          example: "965-948-9238 x866"
+        direccion:
+          type: string
+          example: "7768 Susie Mews"
+          
+    datosUsuario:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 23
+          usuario:
+            type: string
+            example: Mack.Padberg84
+          password:
+            type: string
+            example: I38wz9z3LFsUuZT
+          nombreyapellido:
+            type: string
+            example: Bette Grimes
+          email:
+            type: string
+            example: Patience.Feest@yahoo.com
+          telefono:
+            type: string
+            example: "965-948-9238 x866"
+          direccion:
+            type: string
+            example: "7768 Susie Mews"
+          admin:
+            type: boolean
+            example: 0
+          habilitado:
+            type: boolean
+            example: 1
+            
+    Platos:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Ravioles
+        precio:
+          type: number
+          example: 370
+        descripcion:
+          type: string
+          example: Con salsa boloñesa, mixta, o crema con jamón y champiñones
+        img:
+          type: string
+          example: "https://italpastdeli.com.ar/wp-content/uploads/2017/09/MG_5680-1280x853-1024x682.jpg"
+        nuevo:
+          type: boolean
+          example: 0
+        habilitado:
+          type: boolean
+          example: 1
+          
+          
+    ListaPlatos:
+      type: array
+      items:
+        $ref: "#/components/schemas/Platos"
+        
+    Orden:
+      type: object
+      properties:
+        estado:
+          type: integer
+          example: 1
+        fecha:
+          type: string
+          example: "2020-05-25"
+        orden_id:
+          type: integer
+          example: 18
+        platos:
+          type: string
+          example: "3xSorrentini Rustica,2xRavioles,5xGnocchi Ragu"
+        pago:
+          type: string
+          example: Efectivo
+        precio_total:
+          type: integer
+          example: 1800
+        nombreyapellido:
+          type: string
+          example: Bette Grimes
+        direccion:
+          type: string
+          example: "35047 Dietrich Inlet"
+        usuario_id:
+          type: integer
+          example: 29
+        ordenes_platosid:
+          type: integer
+          example: 15   
+          
+    ListaOrdenes:
+      type: array
+      items:
+        $ref: "#/components/schemas/Orden"
+        
+    Carrito:
+      type: object
+      properties:
+        precio:
+          type: integer
+          example: 860
+        orden:
+            type: array
+            items:
+              type: object
+              properties:
+                precio:
+                  type: integer
+                  example: 860
+                id:
+                  type: integer
+                  example: 23
+                orden_id: 
+                  type: integer
+                  example: 21
+                platos_id:
+                  type: integer
+                  example: 6
+                cantidad:
+                  type: integer
+                  example: 2
+                preciodeplato:
+                  type: integer
+                  example: 430
+                plato_nombre:
+                  type: string
+                  example: Gnocchi Ragu
+                pago:
+                  type: string
+                  example: Efectivo
+                precio_cantidad:
+                  type: integer
+                  example: 860
+                  
+              
+                    
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "An error has ocurred: <error>"
+      required:
+        - error
+
+
+  responses:
+    Default:
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
