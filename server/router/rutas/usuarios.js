@@ -15,7 +15,7 @@ router.route('/') ///Traer usuarios o crear usuarios
       res.status(200).send(allUsers);
     }
     else {
-      res.status(403).send("Solo acceso admin");
+      res.status(401).send("Acceso no autorizado");
     }
 
   })
@@ -28,9 +28,9 @@ router.route('/') ///Traer usuarios o crear usuarios
       let nuevoUsuario = await depenGenerales.sequelize.query('INSERT INTO usuarios (usuario, password, nombreyapellido, email, telefono, direccion) VALUES (?,?,?,?,?,?);', {
         replacements: [usuario, password, nombreyapellido, email, telefono, direccion], type: depenGenerales.sequelize.QueryTypes.INSERT
       });
-      res.status(201).send("Usuario creado");
+      res.status(201).send("Usuario creado con éxito");
     } else {
-      res.status(422).send("Faltan parametros para el registro");
+      res.status(400).send("Faltan parametros para el registro");
     }
   });
 
@@ -97,7 +97,7 @@ router.route('/:id') ///////// GET, PUT, DELETE ////Admin trae cualquier usuario
     if (usuarioEncontrado != undefined && usuarioEncontrado.admin != 1) {
       let deleteUsuario = await depenGenerales.sequelize.query("DELETE FROM `usuarios` WHERE id=:id",
       { replacements: { id: usuarioEncontrado.id } })
-      res.status(200).send("Usuario Eliminado \n" + deleteUsuario[0].id);
+      res.status(200).send("Usuario Eliminado");
     } else {
       res.status(404).send("No se encontro ese usuario");
     }
@@ -121,7 +121,7 @@ router.route('/login')
         res.status(400).send("Usuario o Password Incorrecto");
       }
     } else {
-      res.status(422).send("Faltan parametros para el ingreso");
+      res.status(404).send("Faltan parametros para el ingreso");
     }
   });
 

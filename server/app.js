@@ -1,9 +1,12 @@
 const express = require("express");
 const app = express();
 
-  ////    STARTUP
-  app.listen(3000, () => {
-    console.log("Servidor iniciado en puerto 3000");
+const port = 3000; /// default
+
+
+////    STARTUP
+app.listen(port, () => {
+  console.log("Servidor iniciado en puerto " + port);
 })
 
 ////    MIDDLEWARES GENERALES

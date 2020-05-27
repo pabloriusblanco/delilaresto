@@ -152,8 +152,8 @@ router.route('/confirmar')
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         let carritoActivo = res.locals.carritoActivo;
-        let ordenActiva = {}
-        ordenActiva.id = res.locals.ordenId
+        let ordenActiva = {};
+        ordenActiva.id = res.locals.ordenId;
         let precioFinal = function () { ///CONSIGUE EL PRECIO TOTAL
             let sumaPrecio = 0;
             for (let index = 0; index < carritoActivo.length; index++) {
@@ -206,7 +206,6 @@ router.route('/confirmar')
 
 router.route('/carrito')
     .get(middlewares.jwtAut, middlewares.ordenActiva, async (req, res) => {
-        console.log("LLEGO A CARRITO")
         //////////////////////////////////////////////////////////////////////////////////////////////
         ///Obtiene la orden activa
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +237,7 @@ router.route('/carrito/:plato_id')
                 type: depenGenerales.sequelize.QueryTypes.INSERT
             })
 
-        res.status(201).send(carritoConPlato);
+        res.status(200).send(carritoConPlato);
     })
 
     .put(middlewares.jwtAut, middlewares.AutPlatos, middlewares.ordenActiva, async (req, res) => {
@@ -286,7 +285,7 @@ router.route('/carrito/:plato_id')
                         },
                     }
                 )
-                res.status(200).send("Plato Eliminado de su pedido");
+                res.status(204).send("Plato Eliminado de su pedido");
             } else {
                 res.status(200).send("Plato actualizado");
             }

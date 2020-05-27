@@ -33,11 +33,11 @@ router.route('/')
                 });
                 res.status(201).send(nuevoPlato);
             } else {
-                res.status(422).send("Faltan parametros para la creación de un plato");
+                res.status(422).send("Faltan parametros para la creación del plato");
             }
         }
         else {
-            res.status(403).send("Solo acceso admin");
+            res.status(403).send("No tiene permisos para acceder");
         }
     });
 
@@ -103,7 +103,7 @@ router.route('/:id')
                 res.status(404).send("No se encontró el plato");
             }
         } else {
-            res.status(403).send("Solo acceso admin");
+            res.status(403).send("No tiene permisos para acceder");
         }
     })
 

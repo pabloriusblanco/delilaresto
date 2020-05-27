@@ -32,7 +32,7 @@ const mainMiddleware = {
                 next();
             }
             else {
-                res.status(403).send("Ese usuario y/o email ya están registrados");
+                res.status(409).send("Ese usuario y/o email ya están registrados");
             }
         }
         else {
@@ -54,7 +54,7 @@ const mainMiddleware = {
             next();
         }
         else {
-            res.status(401).send("No tiene acceso");
+            res.status(403).send("No tiene permisos para acceder");
         }
     },
 
@@ -137,7 +137,7 @@ const mainMiddleware = {
                 res.locals.ordenIdUsuario = ordenIdUsuario[0];
                 next();
             } else {
-                res.status(404).send("No tiene acceso");
+                res.status(403).send("No tiene permisos para acceder");
             }
         }
     },
