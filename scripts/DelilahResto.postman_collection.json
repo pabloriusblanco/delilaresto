@@ -860,6 +860,112 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "PUT /orden/id/:id Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"estado\":6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/orden/id/3",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden",
+								"id",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE /orden/id/:id",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mjk.hOvBupP1kIxdohbbrYvG0YXozv93RrHH_cwSH3BQBxg",
+								"description": "id 29",
+								"type": "text"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.MQ.HQy4O0R_Rf12gUv-kVaUU8GLgnlsvJUMGu16NTxkiZI",
+								"description": "admin",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiJ9.Mzg.IcSJFv0UohV5IoNMp7WqSqUPBiN5u6GIBSFcwq2ZQz0",
+								"description": "diferente a 29",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"estado\":6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:3000/orden/id/3",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "3000",
+							"path": [
+								"orden",
+								"id",
+								"3"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"protocolProfileBehavior": {}

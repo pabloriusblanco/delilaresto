@@ -428,6 +428,33 @@ paths:
         default:
           $ref: "#/components/responses/Default"
           
+    delete:
+      tags:
+        - Orden
+      summary: Elimina orden (admin)
+      description: Recibe por parametro el ID de una orden. Si es admin la elimina.
+      parameters:
+        - name: id
+          in: path
+          description: ID del plato
+          required: true
+          schema:
+            type: integer
+      operationId: EliminarOrden
+      security:
+        - bearerAuth: []   
+      responses:
+        204:
+          description: Orden eliminada
+        401:
+          description: Necesita estar logeado para realizar esa accion      
+        403:
+          description: No tiene permisos para acceder                
+        404:
+          description: No se encontro esa orden       
+        default:
+          $ref: "#/components/responses/Default"
+          
   /orden/confirmar:        
     put:
       tags:

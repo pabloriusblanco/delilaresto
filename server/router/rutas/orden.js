@@ -122,7 +122,7 @@ router.route('/id/:orden_id')
             /// ESTADOS:
             /// 1 nuevo - 2 confirmado - 3 preparando - 4 enviando - 5 entregado - 6 cancelado
             ////////////////////////////////////////////////////////////////////////////////
-            if (estado==6 && ordenIdUsuario.estado <= 2) {
+            if (estado == 6 && ordenIdUsuario.estado <= 2) {
                 ordenIdUsuario.estado = estado;
                 let putOrden = await depenGenerales.sequelize.query(`
                 UPDATE orden SET
@@ -141,7 +141,30 @@ router.route('/id/:orden_id')
             }
 
         }
+    })
 
+    .delete(middlewares.jwtAut, middlewares.ordenProceso, async (req, res) => {
+        ////////////////////////////////////////////////////////////////////////////////////
+        ///Permite al admin eliminar una orden activa junto con todos los elementos pedidos.
+        ////////////////////////////////////////////////////////////////////////////////////
+        let ordenIdUsuario = res.locals.ordenIdUsuario;
+        let usuarioLogeado = res.locals.usuarioLogeado[0];
+        if (usuarioLogeado.admin == 1) {
+            let deleteOrden = await depenGenerales.sequelize.query(`
+            DELETE FROM ordenes_platos 
+            WHERE ordenes_platos.orden_id=:orden_id; 
+            DELETE FROM orden WHERE orden.id=:orden_id`,
+                {
+                    replacements:
+                    {
+                        orden_id: ordenIdUsuario.id_ord
+                    }
+                });
+            res.status(204).send("Orden eliminada");
+        }
+        else {
+            res.status(403).send("No tiene permisos para acceder");
+        }
     });
 
 router.route('/confirmar')
